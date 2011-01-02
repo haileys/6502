@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
-#include "cpu.h"
+
+#include <cpu.h>
 
 cpu_t* new_cpu()
 {
@@ -42,7 +43,7 @@ unsigned short cpu_pop_16(cpu_t* cpu)
 
 void cpu_nmi(cpu_t* cpu)
 {
-	cpu_push_16(cpu, cpu->regs.pc + 1);
+	cpu_push_16(cpu, cpu->regs.pc);
 	cpu_push_8(cpu, cpu->regs.flags | FPUSHED);
 
 	cpu->regs.pc = cpu_peek(cpu, 0xFFFA) | (cpu_peek(cpu, 0xFFFB) << 8);
@@ -50,7 +51,7 @@ void cpu_nmi(cpu_t* cpu)
 
 void cpu_rst(cpu_t* cpu)
 {
-	cpu_push_16(cpu, cpu->regs.pc + 1);
+	cpu_push_16(cpu, cpu->regs.pc);
 	cpu_push_8(cpu, cpu->regs.flags | FPUSHED);
 
 	cpu->regs.pc = cpu_peek(cpu, 0xFFFC) | (cpu_peek(cpu, 0xFFFD) << 8);
@@ -61,7 +62,7 @@ void cpu_brk(cpu_t* cpu)
 	if(GET_FLAG(cpu, FNOBRK))
 		return;
 
-	cpu_push_16(cpu, cpu->regs.pc + 1);
+	cpu_push_16(cpu, cpu->regs.pc);
 	cpu_push_8(cpu, cpu->regs.flags | FPUSHED | FBRK);
 
 	cpu->regs.pc = cpu_peek(cpu, 0xFFFE) | (cpu_peek(cpu, 0xFFFF) << 8);

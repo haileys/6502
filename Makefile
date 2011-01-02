@@ -1,8 +1,8 @@
 CC=gcc
-CFLAGS=-Wall -std=c99
+CFLAGS=-Wall -std=c99 -Iinc
 
 all:
-	$(CC) $(CFLAGS) *.c -o 6502
+	$(CC) $(CFLAGS) src/*.c -o 6502
 
 clean:
-	rm -rf *.o 6502
+	rm 6502
