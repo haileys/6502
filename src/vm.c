@@ -20,6 +20,8 @@ unsigned short vm_next_16(cpu_t* cpu)
 
 void vm_step(cpu_t* cpu)
 {
+	unsigned short pc = cpu->regs.pc;
+	
 	unsigned char opcode = vm_next_8(cpu);
 
 	addrmode_t addressing_mode = (addrmode_t)opcodes[opcode * 2 + 1];
@@ -27,7 +29,7 @@ void vm_step(cpu_t* cpu)
 
 	if(addressing_mode == NULL || instruction == NULL)
 	{
-		fprintf(stderr, "** Illegal opcode: $%X\n** CPU halted.\n", opcode);
+		fprintf(stderr, "** Illegal opcode: $%X at address %xh\n** CPU halted.\n", opcode, pc);
 		exit(1);
 	}
 }
