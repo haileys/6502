@@ -35,8 +35,8 @@ unsigned char cpu_pop_8(cpu_t* cpu)
 }
 unsigned short cpu_pop_16(cpu_t* cpu)
 {
-	char lsb = cpu_pop_8(cpu);
-	char msb = cpu_pop_8(cpu);
+	unsigned char lsb = cpu_pop_8(cpu);
+	unsigned char msb = cpu_pop_8(cpu);
 
 	return msb << 8 | lsb;
 }
