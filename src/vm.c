@@ -27,7 +27,7 @@ void vm_step(cpu_t* cpu)
 
 	if(addressing_mode == NULL || instruction == NULL)
 	{
-		fprintf(stderr, "** Illegal opcode: %d\n** Emulation halted.", opcode);
+		fprintf(stderr, "** Illegal opcode: $%X\n** CPU halted.\n", opcode);
 		exit(1);
 	}
 }

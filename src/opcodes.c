@@ -1,11 +1,12 @@
 #include <stdlib.h>
 #include <opcodes.h>
 #include <addressing_modes.h>
+#include <instructions.h>
 
 void* opcodes[] = {
 
 	// 00
-	NULL, NULL,
+	ins_brk, addrmode_none,
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,

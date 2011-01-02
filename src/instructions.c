@@ -1,7 +1,7 @@
 #include <cpu.h>
 #include <instructions.h>
 
-INS(adc)
+INS(brk)
 {
-	
+	cpu_brk(cpu);
 }
