@@ -1,9 +1,10 @@
 #include <stdlib.h>
+#include <string.h>
 #include "cpu.h"
 
 cpu_t* new_cpu()
 {
-	cpu_t* cpu = (cpu_t*)malloc(sizeof(cpu_t));
+	cpu_t* cpu = (cpu_t*)calloc(1, sizeof(cpu_t));
 	cpu->mem = (unsigned char*)calloc(1, 65536);
 	cpu->regs.sp = 255;
 	return cpu;
@@ -65,4 +66,42 @@ void cpu_brk(cpu_t* cpu)
 
 	cpu->regs.pc = cpu->mem[0xFFFE] | (cpu->mem[0xFFFF] << 8);
 }
+
+void cpu_mmap(cpu_t* cpu, mmapseg_t* segment)
+{
+	mmapseg_t* new_segment = (mmapseg_t*)malloc(sizeof(mmapseg_t));
+	memcpy(new_segment, segment, sizeof(mmapseg_t));
+
+	new_segment->next = NULL;
+	cpu->mmapped_chain_tail->next = new_segment;
+	cpu->mmapped_chain_tail = new_segment;
+}
+
+unsigned char cpu_peek(cpu_t* cpu, unsigned short address)
+{
+	for(mmapseg_t* node = cpu->mmapped_chain_head; node != NULL; node = node->next)
+	{
+		if(node->address <= address && node->address + node->length > address)
+		{
+			return node->get(cpu, node->state, address);
+		}
+	}
+
+	return cpu->mem[address];
+}
+
+void cpu_poke(cpu_t* cpu, unsigned short address, unsigned char val)
+{
+	for(mmapseg_t* node = cpu->mmapped_chain_head; node != NULL; node = node->next)
+	{
+		if(node->address <= address && node->address + node->length > address)
+		{
+			node->set(cpu, node->state, address, val);
+			return;
+		}
+	}
+
+	cpu->mem[address] = val;
+}
+
 
