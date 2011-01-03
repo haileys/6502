@@ -2,30 +2,51 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-static void f000_set(cpu_t* cpu, void*, unsigned short addr, unsigned char val);
-static unsigned char f000_get(cpu_t* cpu, void*, unsigned short addr);
+static void writeport_set(cpu_t* cpu, void*, unsigned short addr, unsigned char val);
+static unsigned char writeport_get(cpu_t* cpu, void*, unsigned short addr);
+
+static void readport_set(cpu_t* cpu, void*, unsigned short addr, unsigned char val);
+static unsigned char readport_get(cpu_t* cpu, void*, unsigned short addr);
 
 void init_6502(cpu_t* cpu)
 {
 	cpu->regs.pc = 0xC000;
 
 	mmapseg_t mmap = {
-		.address = 0xF000,
-		.length = 0x1000,
-		.state = cpu->mem,
-		.set = f000_set,
-		.get = f000_get,
+		.address = 0xF001,
+		.length = 1,
+		.state = NULL,
+		.set = writeport_set,
+		.get = writeport_get,
 	};
+	cpu_mmap(cpu, &mmap);
+	
+	mmap.address = 0xF004;
+	mmap.set = readport_set;
+	mmap.get = readport_get;
+	
 	cpu_mmap(cpu, &mmap);
 }
 
-static void f000_set(cpu_t* cpu, void* state, unsigned short addr, unsigned char val)
+static void writeport_set(cpu_t* cpu, void* state, unsigned short addr, unsigned char val)
 {
-	printf("write: addr %x value %x\n", addr, val);
-	((unsigned char*)state)[addr] = val;
+	putchar(val);
+	fflush(stdout);
 }
-static unsigned char f000_get(cpu_t* cpu, void* state, unsigned short addr)
+static unsigned char writeport_get(cpu_t* cpu, void* state, unsigned short addr)
 {
-	printf(" read: addr %x value %x\n", addr, ((unsigned char*)state)[addr]);
-	return ((unsigned char*)state)[addr];
+	printf("** Read from write-only port $F001\n");
+	printf("** CPU halted\n");
+	exit(1);
+}
+
+static void readport_set(cpu_t* cpu, void* state, unsigned short addr, unsigned char val)
+{
+	printf("** Write to read-only port $F004\n");
+	printf("** CPU halted\n");
+	exit(1);
+}
+static unsigned char readport_get(cpu_t* cpu, void* state, unsigned short addr)
+{
+	return (unsigned char)getchar();
 }

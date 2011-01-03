@@ -36,7 +36,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// 18
-	NULL, NULL,
+	OP(clc, implied),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -222,7 +222,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	// AC
 	NULL, NULL,
-	NULL, NULL,
+	OP(lda, abs_deref),
 	NULL, NULL,
 	NULL, NULL,
 	// B0
@@ -276,7 +276,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// D8
-	NULL, NULL,
+	OP(cld, implied),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,

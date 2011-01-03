@@ -33,5 +33,7 @@ INS(stx);
 INS(txs);
 INS(jsr);
 INS(rts);
+INS(cld);
+INS(clc);
 
 #endif

@@ -182,4 +182,12 @@ INS(rts)
 	cpu->regs.pc = cpu_pop_16(cpu) + 1;
 }
 
+INS(cld)
+{
+	CLEAR_FLAG(cpu, FBCD);
+}
 
+INS(clc)
+{
+	CLEAR_FLAG(cpu, FCARRY);
+}
