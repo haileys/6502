@@ -23,6 +23,7 @@ void init_6502(cpu_t* cpu)
 void _char_out(cpu_t* cpu, void* state, unsigned short addr, unsigned char val)
 {
 	putchar(val);
+	fflush(stdout);
 }
 
 
