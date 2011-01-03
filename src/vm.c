@@ -29,7 +29,10 @@ void vm_step(cpu_t* cpu)
 
 	if(addressing_mode == NULL || instruction == NULL)
 	{
-		fprintf(stderr, "** Illegal opcode: $%X at address %xh\n** CPU halted.\n", opcode, pc);
+		fprintf(stderr, "** Illegal opcode: $%X at address %xh\n", opcode, pc);
+		fprintf(stderr, "   A: %x\n   X: %x\n   Y: %x\n** CPU halted.\n", cpu->regs.a, cpu->regs.x, cpu->regs.y);
 		exit(1);
 	}
+
+	instruction(cpu, addressing_mode(cpu));
 }
