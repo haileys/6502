@@ -105,4 +105,17 @@ void cpu_poke(cpu_t* cpu, unsigned short address, unsigned char val)
 	cpu->mem[address] = val;
 }
 
+unsigned short cpu_peek_16(cpu_t* cpu, unsigned short address)
+{
+	unsigned char lsb = cpu_peek(cpu, address);
+	unsigned char msb = cpu_peek(cpu, address + 1);
+
+	return msb << 8 | lsb;
+}
+
+void cpu_poke_16(cpu_t* cpu, unsigned short address, unsigned short val)
+{
+	cpu_poke(cpu, address, val & 255);
+	cpu_poke(cpu, address + 1, val >> 8);
+}
 

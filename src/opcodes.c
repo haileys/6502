@@ -6,7 +6,7 @@
 void* opcodes[] = {
 
 	// 00
-	ins_brk, addrmode_none,
+	OP(brk, implied),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -86,7 +86,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// 40
-	NULL, NULL,
+	OP(rti, implied),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -208,7 +208,7 @@ void* opcodes[] = {
 	// A0
 	NULL, NULL,
 	NULL, NULL,
-	NULL, NULL,
+	OP(ldx, imm8),
 	NULL, NULL,
 	// A4
 	NULL, NULL,
@@ -217,7 +217,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	// A8
 	NULL, NULL,
-	NULL, NULL,
+	OP(lda, imm8),
 	NULL, NULL,
 	NULL, NULL,
 	// AC

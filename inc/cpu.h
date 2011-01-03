@@ -14,6 +14,8 @@
 #define SET_FLAG(state,flag)	(state)->regs.flags |= (flag)
 #define CLEAR_FLAG(state,flag)	(state)->regs.flags &= ~(flag);
 
+#define FLAG_IF(state,flag,condition) if(condition) { SET_FLAG(state,flag); } else { CLEAR_FLAG(state,flag); }
+
 typedef struct reg
 {
 	unsigned short pc;
@@ -68,5 +70,8 @@ void			cpu_mmap(cpu_t* cpu, mmapseg_t* segment);
 
 unsigned char	cpu_peek(cpu_t* cpu, unsigned short address);
 void			cpu_poke(cpu_t* cpu, unsigned short address, unsigned char val);
+
+unsigned short	cpu_peek_16(cpu_t* cpu, unsigned short address);
+void			cpu_poke_16(cpu_t* cpu, unsigned short address, unsigned short val);
 
 #endif

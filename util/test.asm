@@ -4,6 +4,9 @@
 	lda #$BE
 	ldx #$EF
 
+	hi:
+		jmp hi
+
 	nmi:
 		rti
 	reset:
