@@ -1,0 +1,2 @@
+./ca65 test.asm
+./ld65 -C link.cfg -o test.img test.o
