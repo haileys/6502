@@ -1,20 +1,20 @@
 .segment "CODE"
-	brk
 
-	lda #$BE
-	ldx #$EF
+	ldx #0
+	loop:
+		lda msg,x
+		beq end
+		sta $201 ; mmapped character out
+		inx
+		jmp loop
 
-	hi:
-		jmp hi
+	end:
+		jmp end
 
-	nmi:
+	isr:
 		rti
-	reset:
-		rti
-	irq:
-		lda #$DE
-		ldx #$AD
-		rti
+
+	msg: .byt "Hello, World!", $0
 
 .segment "VECTORS"
-	.word nmi, reset, irq
+	.word isr, isr, isr

@@ -11,5 +11,9 @@ ADDRMODE(implied);
 ADDRMODE(imm8);
 ADDRMODE(imm16);
 ADDRMODE(relative);
+ADDRMODE(abs);
+ADDRMODE(abs_deref);
+ADDRMODE(absx);
+ADDRMODE(absx_deref);
 
 #endif

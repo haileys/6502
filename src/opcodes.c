@@ -101,7 +101,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// 4C
-	NULL, NULL,
+	OP(jmp, imm16),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -182,7 +182,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	// 8C
 	NULL, NULL,
-	NULL, NULL,
+	OP(sta, abs),
 	NULL, NULL,
 	NULL, NULL,
 	// 90
@@ -242,6 +242,26 @@ void* opcodes[] = {
 	NULL, NULL,
 	// BC
 	NULL, NULL,
+	OP(lda, absx_deref),
+	NULL, NULL,
+	NULL, NULL,
+	// C0
+	NULL, NULL,
+	NULL, NULL,
+	NULL, NULL,
+	NULL, NULL,
+	// C4
+	NULL, NULL,
+	NULL, NULL,
+	NULL, NULL,
+	NULL, NULL,
+	// C8
+	NULL, NULL,
+	NULL, NULL,
+	NULL, NULL,
+	NULL, NULL,
+	// CC
+	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -276,7 +296,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// E8
-	NULL, NULL,
+	OP(inx, implied),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -286,7 +306,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// F0
-	NULL, NULL,
+	OP(beq, relative),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,

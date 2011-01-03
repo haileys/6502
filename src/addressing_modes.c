@@ -12,7 +12,7 @@ ADDRMODE(imm8)
 	return vm_next_8(cpu);
 }
 
-ADDRMODE(imm16)
+ADDRMODE(imm16) // also works for jmp's absolute addressing
 {
 	return vm_next_16(cpu);
 }
@@ -23,4 +23,22 @@ ADDRMODE(relative)
 	return cpu->regs.pc + offset;
 }
 
+ADDRMODE(abs)
+{
+	return vm_next_16(cpu);
+}
 
+ADDRMODE(abs_deref)
+{
+	return cpu_peek(cpu, vm_next_16(cpu));
+}
+
+ADDRMODE(absx)
+{
+	return vm_next_16(cpu) + cpu->regs.x;
+}
+
+ADDRMODE(absx_deref)
+{
+	return cpu_peek(cpu, vm_next_16(cpu) + cpu->regs.x);
+}

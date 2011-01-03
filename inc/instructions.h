@@ -11,5 +11,9 @@ INS(brk);
 INS(lda);
 INS(ldx);
 INS(rti);
+INS(jmp);
+INS(beq);
+INS(sta);
+INS(inx);
 
 #endif

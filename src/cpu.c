@@ -74,7 +74,8 @@ void cpu_mmap(cpu_t* cpu, mmapseg_t* segment)
 	memcpy(new_segment, segment, sizeof(mmapseg_t));
 
 	new_segment->next = NULL;
-	cpu->mmapped_chain_tail->next = new_segment;
+	if(cpu->mmapped_chain_tail != NULL)
+		cpu->mmapped_chain_tail->next = new_segment;
 	cpu->mmapped_chain_tail = new_segment;
 }
 
