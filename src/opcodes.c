@@ -26,7 +26,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// 10
-	NULL, NULL,
+	OP(bpl, relative),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -46,7 +46,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// 20
-	NULL, NULL,
+	OP(jsr, abs),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -57,7 +57,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	// 28
 	NULL, NULL,
-	NULL, NULL,
+	OP(and, imm8),
 	NULL, NULL,
 	NULL, NULL,
 	// 2C
@@ -126,7 +126,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// 60
-	NULL, NULL,
+	OP(rts, implied),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -137,11 +137,11 @@ void* opcodes[] = {
 	NULL, NULL,
 	// 68
 	NULL, NULL,
-	NULL, NULL,
+	OP(adc, imm8),
 	NULL, NULL,
 	NULL, NULL,
 	// 6C
-	NULL, NULL,
+	OP(jmp, indirect),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -172,13 +172,13 @@ void* opcodes[] = {
 	NULL, NULL,
 	// 84
 	NULL, NULL,
-	NULL, NULL,
-	NULL, NULL,
+	OP(sta, zp),
+	OP(stx, zp),
 	NULL, NULL,
 	// 88
+	OP(dey, implied),
 	NULL, NULL,
-	NULL, NULL,
-	NULL, NULL,
+	OP(txa, implied),
 	NULL, NULL,
 	// 8C
 	NULL, NULL,
@@ -186,19 +186,19 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// 90
-	NULL, NULL,
+	OP(bcc, relative),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
 	// 94
 	NULL, NULL,
-	NULL, NULL,
+	OP(sta, zpx),
 	NULL, NULL,
 	NULL, NULL,
 	// 98
 	NULL, NULL,
-	NULL, NULL,
-	NULL, NULL,
+	OP(sta, absy),
+	OP(txs, implied),
 	NULL, NULL,
 	// 9C
 	NULL, NULL,
@@ -206,7 +206,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// A0
-	NULL, NULL,
+	OP(ldy, imm8),
 	NULL, NULL,
 	OP(ldx, imm8),
 	NULL, NULL,
@@ -218,7 +218,7 @@ void* opcodes[] = {
 	// A8
 	NULL, NULL,
 	OP(lda, imm8),
-	NULL, NULL,
+	OP(tax, implied),
 	NULL, NULL,
 	// AC
 	NULL, NULL,
@@ -226,7 +226,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// B0
-	NULL, NULL,
+	OP(bcs, relative),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -237,7 +237,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	// B8
 	NULL, NULL,
-	NULL, NULL,
+	OP(lda, absy_deref),
 	NULL, NULL,
 	NULL, NULL,
 	// BC
@@ -256,9 +256,9 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// C8
-	NULL, NULL,
-	NULL, NULL,
-	NULL, NULL,
+	OP(iny, implied),
+	OP(cmp, imm8),
+	OP(dex, implied),
 	NULL, NULL,
 	// CC
 	NULL, NULL,
@@ -266,7 +266,7 @@ void* opcodes[] = {
 	NULL, NULL,
 	NULL, NULL,
 	// D0
-	NULL, NULL,
+	OP(bne, relative),
 	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL,
@@ -298,7 +298,7 @@ void* opcodes[] = {
 	// E8
 	OP(inx, implied),
 	NULL, NULL,
-	NULL, NULL,
+	OP(nop, implied),
 	NULL, NULL,
 	// EC
 	NULL, NULL,

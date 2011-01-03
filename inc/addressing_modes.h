@@ -15,5 +15,12 @@ ADDRMODE(abs);
 ADDRMODE(abs_deref);
 ADDRMODE(absx);
 ADDRMODE(absx_deref);
+ADDRMODE(absy);
+ADDRMODE(absy_deref);
+ADDRMODE(zp);
+ADDRMODE(zp_deref);
+ADDRMODE(zpx);
+ADDRMODE(zpx_deref);
+ADDRMODE(indirect);
 
 #endif

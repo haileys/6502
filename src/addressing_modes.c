@@ -42,3 +42,39 @@ ADDRMODE(absx_deref)
 {
 	return cpu_peek(cpu, vm_next_16(cpu) + cpu->regs.x);
 }
+
+ADDRMODE(absy)
+{
+	return vm_next_16(cpu) + cpu->regs.y;
+}
+
+ADDRMODE(absy_deref)
+{
+	return cpu_peek(cpu, vm_next_16(cpu) + cpu->regs.y);
+}
+
+ADDRMODE(zp)
+{
+	return vm_next_8(cpu);
+}
+
+ADDRMODE(zp_deref)
+{
+	return cpu_peek(cpu, vm_next_8(cpu));
+}
+
+ADDRMODE(zpx)
+{
+	return (vm_next_8(cpu) + (cpu->regs.x & 255)) & 255;
+}
+
+ADDRMODE(zpx_deref)
+{
+	return cpu_peek(cpu, (vm_next_8(cpu) + (cpu->regs.x & 255)) & 255);
+}
+
+ADDRMODE(indirect)
+{
+	return cpu_peek_16(cpu, vm_next_16(cpu));
+}
+
