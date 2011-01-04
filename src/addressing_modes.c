@@ -78,3 +78,13 @@ ADDRMODE(indirect)
 	return cpu_peek_16(cpu, vm_next_16(cpu));
 }
 
+ADDRMODE(indy)
+{
+	return cpu_peek_16(cpu, vm_next_8(cpu)) + cpu->regs.y;
+}
+
+ADDRMODE(indy_deref)
+{
+	return cpu_peek(cpu, cpu_peek_16(cpu, vm_next_8(cpu)) + cpu->regs.y);
+}
+

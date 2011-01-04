@@ -53,5 +53,17 @@ int main(int argc, char** argv)
 			cpu_rst(cpu);
 			send_rst = 0;
 		}
+
+		reg_t* r = &cpu->regs;
+		
+		printf(
+		// push current cursor position, and go to (1,1)
+		"\e[s\e[1;1H"
+		// white on red
+		"\e[1;37;41m"
+		// print out status info, like registers
+		" A: %02x  X: %02x  Y: %02x  PC: $%04x  SP: %02x  Flags: %02x"
+		// restore colour and pop cursor
+		"\e[m\e[u", r->a & 255, r->x & 255, r->y & 255, r->pc & 255, r->sp & 65535, r->flags & 255);
 	}
 }

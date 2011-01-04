@@ -22,5 +22,7 @@ ADDRMODE(zp_deref);
 ADDRMODE(zpx);
 ADDRMODE(zpx_deref);
 ADDRMODE(indirect);
+ADDRMODE(indy);
+ADDRMODE(indy_deref);
 
 #endif
