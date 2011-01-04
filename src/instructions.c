@@ -67,6 +67,12 @@ INS(bcs)
 		cpu->regs.pc = param;
 }
 
+INS(bvs)
+{
+	if(GET_FLAG(cpu, FOFLOW))
+		cpu->regs.pc = param;
+}
+
 INS(bmi)
 {
 	if(GET_FLAG(cpu, FNEG))
@@ -100,6 +106,16 @@ INS(dex)
 
 	FLAG_IF(cpu, FZERO, cpu->regs.x == 0);
 	FLAG_IF(cpu, FNEG, cpu->regs.x & 128);	
+}
+
+INS(dec)
+{
+	unsigned char val = cpu_peek(cpu, param) - 1;
+
+	FLAG_IF(cpu, FZERO, val == 0);
+	FLAG_IF(cpu, FNEG, val & 128);	
+
+	cpu_poke(cpu, param, val);
 }
 
 INS(dey)
@@ -154,6 +170,11 @@ INS(tax)
 INS(txs)
 {
 	cpu->regs.sp = cpu->regs.x;
+}
+
+INS(tsx)
+{
+	cpu->regs.x = cpu->regs.sp;
 }
 
 INS(tya)
@@ -338,7 +359,32 @@ INS(lsr)
 
 INS(eor)
 {
+	cpu->regs.a ^= (unsigned char)param;
+
+	FLAG_IF(cpu, FZERO, cpu->regs.a == 0);
+	FLAG_IF(cpu, FNEG, cpu->regs.a & 128);
+}
+
+INS(asl_a)
+{
+	FLAG_IF(cpu, FCARRY, cpu->regs.a & 128);
+	cpu->regs.a <<= 1;
+}
+
+INS(asl)
+{
+	unsigned char val = cpu_peek(cpu, param);
+	FLAG_IF(cpu, FCARRY, val & 128);
+	val <<= 1;
+	cpu_poke(cpu, param, val);
+}
+
+INS(ora)
+{
+	cpu->regs.a |= (unsigned char)param;
 	
+	FLAG_IF(cpu, FZERO, cpu->regs.a == 0);
+	FLAG_IF(cpu, FNEG, cpu->regs.a & 128);
 }
 
 

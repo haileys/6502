@@ -7,43 +7,43 @@ void* opcodes[] = {
 
 	// 00
 	OP(brk, imm8),
-	ILLEGAL,
+	OP(ora, indx_deref),
 	ILLEGAL,
 	ILLEGAL,
 	// 04
 	ILLEGAL,
-	ILLEGAL,
-	ILLEGAL,
+	OP(ora, zp_deref),
+	OP(asl, zp),
 	ILLEGAL,
 	// 08
 	OP(php, implied),
-	ILLEGAL,
-	ILLEGAL,
+	OP(ora, imm8),
+	OP(asl_a, implied),
 	ILLEGAL,
 	// 0C
 	ILLEGAL,
-	ILLEGAL,
-	ILLEGAL,
+	OP(ora, abs_deref),
+	OP(asl, abs),
 	ILLEGAL,
 	// 10
 	OP(bpl, relative),
-	ILLEGAL,
+	OP(ora, indy_deref),
 	ILLEGAL,
 	ILLEGAL,
 	// 14
 	ILLEGAL,
-	ILLEGAL,
-	ILLEGAL,
+	OP(ora, zpx_deref),
+	OP(asl, zpx),
 	ILLEGAL,
 	// 18
 	OP(clc, implied),
-	ILLEGAL,
+	OP(ora, absy_deref),
 	ILLEGAL,
 	ILLEGAL,
 	// 1C
 	ILLEGAL,
-	ILLEGAL,
-	ILLEGAL,
+	OP(ora, abs_deref),
+	OP(asl, absx),
 	ILLEGAL,
 	// 20
 	OP(jsr, abs),
@@ -87,42 +87,42 @@ void* opcodes[] = {
 	ILLEGAL,
 	// 40
 	OP(rti, implied),
-	ILLEGAL,
+	OP(eor, indx_deref),
 	ILLEGAL,
 	ILLEGAL,
 	// 44
 	ILLEGAL,
-	ILLEGAL,
+	OP(eor, zp_deref),
 	OP(lsr, zp),
 	ILLEGAL,
 	// 48
 	OP(pha, implied),
-	ILLEGAL,
+	OP(eor, imm8),
 	OP(lsr_a, implied),
 	ILLEGAL,
 	// 4C
 	OP(jmp, imm16),
-	ILLEGAL,
+	OP(eor, abs_deref),
 	ILLEGAL,
 	ILLEGAL,
 	// 50
 	ILLEGAL,
-	ILLEGAL,
+	OP(eor, indy_deref),
 	ILLEGAL,
 	ILLEGAL,
 	// 54
 	ILLEGAL,
-	ILLEGAL,
+	OP(eor, zpx_deref),
 	ILLEGAL,
 	ILLEGAL,
 	// 58
 	ILLEGAL,
-	ILLEGAL,
+	OP(eor, absy_deref),
 	ILLEGAL,
 	ILLEGAL,
 	// 5C
 	ILLEGAL,
-	ILLEGAL,
+	OP(eor, absx_deref),
 	ILLEGAL,
 	ILLEGAL,
 	// 60
@@ -146,7 +146,7 @@ void* opcodes[] = {
 	ILLEGAL,
 	ILLEGAL,
 	// 70
-	ILLEGAL,
+	OP(bvs, relative),
 	ILLEGAL,
 	ILLEGAL,
 	ILLEGAL,
@@ -221,7 +221,7 @@ void* opcodes[] = {
 	OP(tax, implied),
 	ILLEGAL,
 	// AC
-	ILLEGAL,
+	OP(ldy, abs_deref),
 	OP(lda, abs_deref),
 	ILLEGAL,
 	ILLEGAL,
@@ -231,17 +231,17 @@ void* opcodes[] = {
 	ILLEGAL,
 	ILLEGAL,
 	// B4
-	ILLEGAL,
+	OP(ldy, zpx_deref),
 	ILLEGAL,
 	ILLEGAL,
 	ILLEGAL,
 	// B8
 	ILLEGAL,
 	OP(lda, absy_deref),
-	ILLEGAL,
+	OP(tsx, implied),
 	ILLEGAL,
 	// BC
-	ILLEGAL,
+	OP(ldy, absx_deref),
 	OP(lda, absx_deref),
 	ILLEGAL,
 	ILLEGAL,
@@ -253,7 +253,7 @@ void* opcodes[] = {
 	// C4
 	OP(cpy, zp_deref),
 	OP(cmp, zp_deref),
-	ILLEGAL,
+	OP(dec, zp),
 	ILLEGAL,
 	// C8
 	OP(iny, implied),
@@ -263,7 +263,7 @@ void* opcodes[] = {
 	// CC
 	ILLEGAL,
 	ILLEGAL,
-	ILLEGAL,
+	OP(dec, abs),
 	ILLEGAL,
 	// D0
 	OP(bne, relative),
@@ -273,7 +273,7 @@ void* opcodes[] = {
 	// D4
 	ILLEGAL,
 	ILLEGAL,
-	ILLEGAL,
+	OP(dec, zpx),
 	ILLEGAL,
 	// D8
 	OP(cld, implied),
@@ -283,7 +283,7 @@ void* opcodes[] = {
 	// DC
 	ILLEGAL,
 	ILLEGAL,
-	ILLEGAL,
+	OP(dec, absx),
 	ILLEGAL,
 	// E0
 	OP(cpx, imm8),
@@ -291,7 +291,7 @@ void* opcodes[] = {
 	ILLEGAL,
 	ILLEGAL,
 	// E4
-	ILLEGAL,
+	OP(cpx, zp_deref),
 	OP(sbc, zp_deref),
 	OP(inc, zp),
 	ILLEGAL,

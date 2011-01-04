@@ -17,6 +17,7 @@ INS(beq);
 INS(bne);
 INS(bcc);
 INS(bcs);
+INS(bvs);
 INS(bmi);
 INS(sta);
 INS(sty);
@@ -34,9 +35,11 @@ INS(adc);
 INS(sbc);
 INS(dey);
 INS(dex);
+INS(dec);
 INS(bpl);
 INS(stx);
 INS(txs);
+INS(tsx);
 INS(tya);
 INS(tay);
 INS(jsr);
@@ -52,5 +55,8 @@ INS(bit);
 INS(lsr_a);
 INS(lsr);
 INS(eor);
+INS(asl);
+INS(asl_a);
+INS(ora);
 
 #endif
