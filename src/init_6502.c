@@ -1,6 +1,7 @@
 #include <init_6502.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <termios.h>
 
 static void writeport_set(cpu_t* cpu, void*, unsigned short addr, unsigned char val);
 static unsigned char writeport_get(cpu_t* cpu, void*, unsigned short addr);
@@ -47,6 +48,12 @@ static void readport_set(cpu_t* cpu, void* state, unsigned short addr, unsigned 
 	exit(1);
 }
 static unsigned char readport_get(cpu_t* cpu, void* state, unsigned short addr)
-{
-	return (unsigned char)getchar();
+{	
+	int c = getchar();
+
+	// tranlsate unix line feed to carriage return - commonly used by 6502 based computers
+	if(c == 0x0A)
+		c = 0x0D;
+	
+	return (unsigned char)c;
 }

@@ -17,6 +17,7 @@ INS(beq);
 INS(bne);
 INS(bcc);
 INS(bcs);
+INS(bmi);
 INS(sta);
 INS(sty);
 INS(inx);
@@ -48,5 +49,8 @@ INS(pha);
 INS(pla);
 INS(plp);
 INS(bit);
+INS(lsr_a);
+INS(lsr);
+INS(eor);
 
 #endif

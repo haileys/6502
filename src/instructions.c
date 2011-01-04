@@ -1,5 +1,7 @@
 #include <cpu.h>
 #include <instructions.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 INS(brk)
 {
@@ -62,6 +64,12 @@ INS(bcc)
 INS(bcs)
 {
 	if(GET_FLAG(cpu, FCARRY))
+		cpu->regs.pc = param;
+}
+
+INS(bmi)
+{
+	if(GET_FLAG(cpu, FNEG))
 		cpu->regs.pc = param;
 }
 
@@ -192,42 +200,70 @@ INS(nop)
 }
 
 INS(adc)
-{
-	unsigned short total = (unsigned short)cpu->regs.a + (unsigned short)param + (GET_FLAG(cpu, FCARRY) ? 1 : 0);
-		
-	if(GET_FLAG(cpu, FBCD))
+{		
+	if(!GET_FLAG(cpu, FBCD))
 	{
-		cpu->regs.a += (param & 255) + (GET_FLAG(cpu, FCARRY) ? 1 : 0);
+		unsigned short total = cpu->regs.a + param + (GET_FLAG(cpu, FCARRY) ? 1 : 0);
 
-		FLAG_IF(cpu, FCARRY, total > 255);
-		FLAG_IF(cpu, FZERO, cpu->regs.a == 0);
-		FLAG_IF(cpu, FNEG, cpu->regs.a & 128);
-		FLAG_IF(cpu, FOFLOW, (cpu->regs.a > 0) != (total > 0));
+		CLEAR_FLAG(cpu, FCARRY);
+		CLEAR_FLAG(cpu, FOFLOW);
+		CLEAR_FLAG(cpu, FNEG);
+		CLEAR_FLAG(cpu, FZERO);
+
+		if(total > 255)
+		{
+			SET_FLAG(cpu, FOFLOW);
+			SET_FLAG(cpu, FCARRY);
+
+			total &= 255;
+		}
+
+		if(total == 0)
+			SET_FLAG(cpu, FZERO);
+			
+		if(total & 128)
+			SET_FLAG(cpu, FNEG);
+
+		cpu->regs.a = (unsigned char)total;
 	}
 	else
 	{
-		// binary coded decimal mode eeek
-		cpu->regs.a = ((total / 10) << 4) + (total % 10);
+		fprintf(stderr, "bcd adc!\n");
+		exit(1);
 	}
 }
 
 INS(sbc)
 {
-	unsigned short total = (unsigned short)cpu->regs.a - (unsigned short)param - (GET_FLAG(cpu, FCARRY) ? 0 : 1);
 		
-	if(GET_FLAG(cpu, FBCD))
+	if(!GET_FLAG(cpu, FBCD))
 	{
-		cpu->regs.a -= (param & 255) - (GET_FLAG(cpu, FCARRY) ? 0 : 1);
+		unsigned short total = cpu->regs.a - param - (GET_FLAG(cpu, FCARRY) ? 0 : 1);
 
-		FLAG_IF(cpu, FCARRY, total < 0);
-		FLAG_IF(cpu, FZERO, cpu->regs.a == 0);
-		FLAG_IF(cpu, FNEG, cpu->regs.a & 128);
-		FLAG_IF(cpu, FOFLOW, (cpu->regs.a > 0) != (total > 0));
+		CLEAR_FLAG(cpu, FCARRY);
+		CLEAR_FLAG(cpu, FOFLOW);
+		CLEAR_FLAG(cpu, FNEG);
+		CLEAR_FLAG(cpu, FZERO);
+
+		if(total == 0)
+		{
+			SET_FLAG(cpu, FZERO);
+			SET_FLAG(cpu, FCARRY);
+		}
+		else if(total > 0)
+			SET_FLAG(cpu, FCARRY);
+		else
+			SET_FLAG(cpu, FOFLOW);
+
+		if(total & 128)
+			SET_FLAG(cpu, FNEG);
+
+		cpu->regs.a = total & 255;
 	}
 	else
 	{
-		// binary coded decimal mode eeek
-		cpu->regs.a = ((total / 10) << 4) + (total % 10);
+		fprintf(stderr, "bcd sbc! Flags: %x  BCD Flag is %x\n", cpu->regs.flags, FBCD);
+		exit(1);
 	}
 }
 
@@ -284,6 +320,25 @@ INS(bit)
 	FLAG_IF(cpu, FZERO, result == 0);
 	FLAG_IF(cpu, FOFLOW, result & 64);
 	FLAG_IF(cpu, FNEG, result & 128);
+}
+
+INS(lsr_a)
+{
+	FLAG_IF(cpu, FCARRY, cpu->regs.a & 1);
+	cpu->regs.a >>= 1;
+}
+
+INS(lsr)
+{
+	unsigned char val = cpu_peek(cpu, param);
+	FLAG_IF(cpu, FCARRY, val & 1);
+	val >>= 1;
+	cpu_poke(cpu, param, val);
+}
+
+INS(eor)
+{
+	
 }
 
 
